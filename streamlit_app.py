@@ -24,7 +24,7 @@ st.write("Yoga Tirta Permana | 200411100142")
 # with st.sidebar:
 selected = option_menu(
     menu_title=None,
-    options=["View Data", "Preprocessing", "Modelling", "Implementation"],
+    options=["View Data", "Preprocessing", "Modeling", "Implementation"],
     icons=["data", "process", "model", "implemen"],
     orientation="horizontal",
 )
@@ -78,21 +78,37 @@ elif (selected == 'Preprocessing'):
     with data_asli:
         st.write('Data Sebelum Preprocessing')
         st.dataframe(df_train)
+        st.write("""
+                  #### Data yang di Drop:
+                  - tanggal: Tanggal pengukuran kualitas udara
+                  - max: Nilai ukur paling tinggi dari seluruh parameter yang diukur dalam waktu yang sama
+                  - critical: Parameter yang hasil pengukurannya paling tinggi
+                  - kategori: Kategori hasil perhitungan indeks standar pencemaran udara
+                """)
 
     with normalisasi:
         st.write('Data Setelah Preprocessing dengan Min-Max Scaler')
         # st.write('Kecuali data gender, chest_pain, & output')
         scaler = MinMaxScaler()
         # df_train_pre = scaler.fit_transform(df_train.drop(columns=['gender', 'chest_pain', 'output']))
-        df_train_pre = scaler.fit_transform(df_train.drop(columns=['tanggal','max','critical','kategori']))
+        df_train_pre = scaler.fit_transform(df_train.drop(
+            columns=['tanggal', 'max', 'critical', 'kategori']))
         st.dataframe(df_train_pre)
+        st.write("""
+                  #### Data yang di Normalisasi:
+                  - pm10: Kadar Partikulat (PM10)
+                  - so2: Kadar Sulfur Dioksida (SO2)
+                  - co: Kadar Karbon Monoksida (CO)
+                  - o3: Kadar Lapisan Ozon (O3)
+                  - no2: Kadar Nitrogen Dioksida (NO2)
+                """)
 
     # Save Scaled
     joblib.dump(df_train_pre, 'model/df_train_pre.sav')
     joblib.dump(scaler, 'model/df_scaled.sav')
 
 
-# Modelling
+# Modeling
 elif (selected == 'Modeling'):
     st.write("# Modeling")
     # st.caption("Splitting Data yang digunakan merupakan 70:30, 30\% untuk data test dan 70\% untuk data train\nIterasi K di lakukan sebanyak 20 Kali")
