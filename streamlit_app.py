@@ -184,31 +184,20 @@ elif (selected == 'Modeling'):
 
 
 # Implementasi
-elif (selected == 'Implementation'):
-    st.write("# Implementation")
+elif (selected == 'Predict'):
+    st.write("# Predict")
     st.write(
-        "Implementasi menggunakan Model K-NN dengan akurasi tertinggi sebesar 80.2%")
+        "Prediksi menggunakan Model Random Forest dengan akurasi tertinggi sebesar 98%")
 
-    nama_pasien = st.text_input("Masukkan Nama")
-    age = st.number_input("Masukkan Umur (29 - 77)",
-                          min_value=29, max_value=77)
-    gender = st.number_input(
-        "Masukkan Jenis Kelamin (1 = Pria, 0 = Wanita)", min_value=0, max_value=1)
-    chest_pain = st.number_input(
-        "Masukkan Type Nyeri Dada (0 = typical angina, 1 = atypical angina, 2 = non-anginal pain, 3 = asymtomatic)", min_value=0, max_value=3)
-    blood_pressure = st.number_input(
-        "Masukkan Tekanan Darah (mm/Hg) (94 - 200)", min_value=94, max_value=200)
-    cholestoral = st.number_input(
-        "Masukkan Kadar Kolesterol (mm/dl) (126 - 564)", min_value=126, max_value=564)
-    heart_rate = st.number_input(
-        "Masukkan Detak Jantung Maximal (71 - 202)", min_value=71, max_value=202)
-    oldpeak = st.number_input(
-        "Masukkan Oldpeak (0 - 6.2)", min_value=0.0, max_value=6.2)
+    pm10 = st.number_input("Masukkan Kadar Partikulat (PM10)")
+    so2 = st.number_input("Masukkan Kadar Sulfur Dioksida (SO2)")
+    co = st.number_input("Masukkan Kadar Karbon Monoksida (CO)")
+    o3 = st.number_input("Masukkan Kadar Lapisan Ozon (O3)")
+    no2 = st.number_input("Masukkan Kadar Nitrogen Dioksida (NO2)")
 
-    st.write("Cek apakah pasien mengidap serangan jantung atau tidak")
-    cek_knn = st.button('Cek Pasien')
-    inputan = [[age, gender, chest_pain, blood_pressure,
-                cholestoral, heart_rate, oldpeak]]
+    st.write("Prediksi Indeks Standar Pencemaran Udara (ISPU)")
+    cek_knn = st.button('Predict')
+    inputan = [[pm10, so2, co, o3, no2]]
 
     scaler = joblib.load('model/df_scaled.sav')
     data_scaler = scaler.transform(inputan)
@@ -219,7 +208,10 @@ elif (selected == 'Implementation'):
         hasil_test = k_nn.predict(data_scaler)[FIRST_IDX]
         if hasil_test == 0:
             st.success(
-                f'Nama Pasien {nama_pasien} Tidak Mengidap Serangan Jantung Berdasarkan Model K-NN')
+                f'Status Udara BAIK')
+        if hasil_test == 0:
+            st.warning(
+                f'Status Udara SEDANG')
         else:
             st.error(
-                f'Nama Pasien {nama_pasien} Mengidap Serangan Jantung Berdasarkan Model K-NN')
+                f'Status Udara TIDAK SEHAT')
