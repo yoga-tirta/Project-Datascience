@@ -112,37 +112,7 @@ elif (selected == 'Preprocessing'):
 elif (selected == 'Modeling'):
     st.write("# Modeling")
     # st.caption("Splitting Data yang digunakan merupakan 70:30, 30\% untuk data test dan 70\% untuk data train\nIterasi K di lakukan sebanyak 20 Kali")
-    knn, nb, dtc = st.tabs(['K-NN', 'Naive-Bayes', 'Decission Tree'])
-
-    # K-Nearest Neighbour
-    with knn:
-        df_train_pre = joblib.load('model/df_train_pre.sav')
-        x_train, x_test, y_train, y_test = train_test_split(
-            df_train_pre, y, test_size=0.3, random_state=0)
-        scores = {}
-        for i in range(1, 20+1):
-            KN = KNeighborsClassifier(n_neighbors=i)
-            KN.fit(x_train, y_train)
-            y_pred = KN.predict(x_test)
-            scores[i] = accuracy_score(y_test, y_pred)
-
-        best_k = max(scores, key=scores.get)
-        st.info(f"Akurasi yang dihasilkan K-NN = {max(scores.values())* 100}%")
-        st.write(df_train_pre)
-        st.success(f"K Terbaik : {best_k} berada di Index : {best_k-1}")
-
-        # Create Chart
-        st.write('Grafik Akurasi K')
-        accuration_k = np.array(list(scores.values()))
-        chart_data = pd.DataFrame(accuration_k, columns=['Akurasi'])
-        st.line_chart(chart_data)
-
-        knn = KNeighborsClassifier(n_neighbors=best_k)
-        knn.fit(x_train, y_train)
-
-        # Save Model
-        # Menyimpan Model ke dalam folder model
-        joblib.dump(knn, 'model/knn_model.sav')
+    nb, knn, dtc = st.tabs(['Naive-Bayes', 'SVM', 'Random Forest'])
 
     # Naive-Bayes Gaussian
     with nb:
@@ -160,8 +130,38 @@ elif (selected == 'Modeling'):
         y_pred = nb.predict(x_test)
         akurasi = accuracy_score(y_test, y_pred)
 
-        st.info(f'Akurasi yang dihasilkan Naive-Bayes = {akurasi*100}%')
+        st.info(f'Akurasi yang dihasilkan Naive Bayes = {akurasi*100}%')
         st.write(df_train_pre)
+
+    # K-Nearest Neighbour
+    with knn:
+        df_train_pre = joblib.load('model/df_train_pre.sav')
+        x_train, x_test, y_train, y_test = train_test_split(
+            df_train_pre, y, test_size=0.3, random_state=0)
+        scores = {}
+        for i in range(1, 20+1):
+            KN = KNeighborsClassifier(n_neighbors=i)
+            KN.fit(x_train, y_train)
+            y_pred = KN.predict(x_test)
+            scores[i] = accuracy_score(y_test, y_pred)
+
+        best_k = max(scores, key=scores.get)
+        st.info(f"Akurasi yang dihasilkan SVM = {max(scores.values())* 100}%")
+        st.write(df_train_pre)
+        st.success(f"Parameter Terbaik : {best_k} berada di Index : {best_k-1}")
+
+        # Create Chart
+        st.write('Grafik Akurasi K')
+        accuration_k = np.array(list(scores.values()))
+        chart_data = pd.DataFrame(accuration_k, columns=['Akurasi'])
+        st.line_chart(chart_data)
+
+        knn = KNeighborsClassifier(n_neighbors=best_k)
+        knn.fit(x_train, y_train)
+
+        # Save Model
+        # Menyimpan Model ke dalam folder model
+        joblib.dump(knn, 'model/knn_model.sav')
 
     # Decision Tree Classifier
     with dtc:
@@ -179,7 +179,7 @@ elif (selected == 'Modeling'):
         y_pred = dtc.predict(x_test)
         akurasi = accuracy_score(y_test, y_pred)
 
-        st.info(f'Akurasi yang dihasilkan Decision Tree = {akurasi*100}%')
+        st.info(f'Akurasi yang dihasilkan Random Forest = {akurasi*100}%')
         st.write(df_train_pre)
 
 
