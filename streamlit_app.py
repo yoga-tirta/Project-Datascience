@@ -20,7 +20,7 @@ from sklearn.metrics import accuracy_score
 
 
 st.title("Klasifikasi & Prediksi Indeks Standar Pencemaran Udara (ISPU)")
-st.write("fyufyufiyfyufyufyu | 200411100142")
+st.write("Yoga Tirta Permana | 200411100142")
 # with st.sidebar:
 selected = option_menu(
     menu_title=None,
@@ -29,7 +29,7 @@ selected = option_menu(
     orientation="horizontal",
 )
 
-df_train = pd.read_csv("heart.csv")
+df_train = pd.read_csv("indeks-standar-pencemar-udara-tahun-2020.csv")
 y = df_train['output']
 
 
@@ -43,29 +43,21 @@ if (selected == "View Data"):
         st.dataframe(df_train)
         st.write("""
                   ### Fitur:
-                  - age: Umur dari pasien
-                  - gender: Jenis kelamin pasien
-                    > 1 - Pria
+                  - tanggal: Tanggal pengukuran kualitas udara
+                  - pm10: Kadar Partikulat (PM10)
+                  - so2: Kadar Sulfur Dioksida (SO2)
+                  - co: Kadar Karbon Monoksida (CO)
+                  - o3: Kadar Lapisan Ozon (O3)
+                  - no2: Kadar Nitrogen Dioksida (NO2)
+                  - max: Nilai ukur paling tinggi dari seluruh parameter yang diukur dalam waktu yang sama
+                  - critical: Parameter yang hasil pengukurannya paling tinggi
+                  - kategori: Kategori hasil perhitungan indeks standar pencemaran udara
+                    > BAIK
 
-                    > 0 - Wanita
-                  - chest_pain: Tipe nyeri dada pasien
-                    > 0 - typical angina : Ketidaknyamanan pada dada dengan durasi tertentu
+                    > SEDANG
 
-                    > 1 - atypical angina : Rasa sakit yang dipicu oleh aktifitas fisik berlebihan atau stres emosional
-
-                    > 2 - non-anginal pain : Rasa sakit biasa yang bisa diredakan dengan istirahat
-
-                    > 3 - asymtomatic : Tidak ada gejala
-                  - blood_pressure: Tekanan darah pasien (mm/Hg) *
-                  - cholestoral: Kadar kolesterol pasien (mm/dl) *
-                  - heart_rate: Detak jantung maksimal pasien *
-                  - oldpeak: Tingkat depresi pasien *
-                  - output: Hasil
-                    > 1 - True
-
-                    > 0 - False
+                    > TIDAK SEHAT
                 """)
-        st.error(f"Note : *Informasi bisa didapatkan melalui pemeriksaan dokter")
 
     with info_data:
         st.write("## Informasi Dataset :")
@@ -92,7 +84,7 @@ elif (selected == 'Preprocessing'):
         # st.write('Kecuali data gender, chest_pain, & output')
         scaler = MinMaxScaler()
         # df_train_pre = scaler.fit_transform(df_train.drop(columns=['gender', 'chest_pain', 'output']))
-        df_train_pre = scaler.fit_transform(df_train.drop(columns=['output']))
+        df_train_pre = scaler.fit_transform(df_train.drop(columns=['tanggal','max','critical','kategori']))
         st.dataframe(df_train_pre)
 
     # Save Scaled
@@ -101,8 +93,8 @@ elif (selected == 'Preprocessing'):
 
 
 # Modelling
-elif (selected == 'Modelling'):
-    st.write("# Modelling")
+elif (selected == 'Modeling'):
+    st.write("# Modeling")
     # st.caption("Splitting Data yang digunakan merupakan 70:30, 30\% untuk data test dan 70\% untuk data train\nIterasi K di lakukan sebanyak 20 Kali")
     knn, nb, dtc = st.tabs(['K-NN', 'Naive-Bayes', 'Decission Tree'])
 
