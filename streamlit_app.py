@@ -20,7 +20,7 @@ from sklearn.metrics import accuracy_score
 
 
 st.title("Klasifikasi & Prediksi Indeks Standar Pencemaran Udara (ISPU)")
-st.write("Yoga Tirta Permana | 200411100142")
+st.write("fyufyufiyfyufyufyu | 200411100142")
 # with st.sidebar:
 selected = option_menu(
     menu_title=None,
