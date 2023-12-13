@@ -19,7 +19,7 @@ from streamlit_option_menu import option_menu
 from sklearn.metrics import accuracy_score
 
 
-st.title("Heart Attack Analysis & Prediction Application")
+st.title("Klasifikasi & Prediksi Indeks Standar Pencemaran Udara (ISPU)")
 st.write("Yoga Tirta Permana | 200411100142")
 # with st.sidebar:
 selected = option_menu(
