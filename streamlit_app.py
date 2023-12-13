@@ -24,8 +24,8 @@ st.write("Yoga Tirta Permana | 200411100142")
 # with st.sidebar:
 selected = option_menu(
     menu_title=None,
-    options=["View Data", "Preprocessing", "Modeling", "Implementation"],
-    icons=["data", "process", "model", "implemen"],
+    options=["View Data", "Preprocessing", "Modeling", "Predict"],
+    icons=["data", "process", "model", "predict"],
     orientation="horizontal",
 )
 
@@ -183,7 +183,7 @@ elif (selected == 'Modeling'):
         st.write(df_train_pre)
 
 
-# Implementasi
+# Predict
 elif (selected == 'Predict'):
     st.write("# Predict")
     st.write(
