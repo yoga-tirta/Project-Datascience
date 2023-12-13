@@ -131,7 +131,7 @@ elif (selected == 'Modeling'):
         akurasi = accuracy_score(y_test, y_pred)
 
         st.info(f'Akurasi yang dihasilkan Naive Bayes = {akurasi*100}%')
-        st.write(df_train_pre)
+        st.image('nb.png', caption='Confusion Matrix Naive Bayes')
 
     # K-Nearest Neighbour
     with knn:
@@ -147,7 +147,7 @@ elif (selected == 'Modeling'):
 
         best_k = max(scores, key=scores.get)
         st.info(f"Akurasi yang dihasilkan SVM = {max(scores.values())* 100}%")
-        st.write(df_train_pre)
+        st.image('svm.png', caption='Confusion Matrix SVM')
         st.success(f"Parameter Terbaik : {best_k} berada di Index : {best_k-1}")
 
         # Create Chart
@@ -180,7 +180,8 @@ elif (selected == 'Modeling'):
         akurasi = accuracy_score(y_test, y_pred)
 
         st.info(f'Akurasi yang dihasilkan Random Forest = {akurasi*100}%')
-        st.write(df_train_pre)
+        st.image('rf.png', caption='Confusion Matrix Random Forest')
+        st.image('tree.png', caption='Random Forest Tree')
 
 
 # Predict
