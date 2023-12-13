@@ -30,7 +30,7 @@ selected = option_menu(
 )
 
 df_train = pd.read_csv("indeks-standar-pencemar-udara-tahun-2020.csv")
-y = df_train['output']
+y = df_train['kategori']
 
 
 # View Data
