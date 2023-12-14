@@ -148,7 +148,8 @@ elif (selected == 'Modeling'):
         best_k = max(scores, key=scores.get)
         st.info(f"Akurasi yang dihasilkan SVM = {max(scores.values())* 100}%")
         st.image('svm.png', caption='Confusion Matrix SVM')
-        st.success(f"Parameter Terbaik : {best_k} berada di Index : {best_k-1}")
+        st.success(
+            f"Parameter Terbaik : {best_k} berada di Index : {best_k-1}")
 
         # Create Chart
         st.write('Grafik Akurasi K')
@@ -208,11 +209,8 @@ elif (selected == 'Predict'):
     if cek_knn:
         hasil_test = k_nn.predict(data_scaler)[FIRST_IDX]
         if hasil_test == 0:
-            st.success(
-                f'Status Udara BAIK')
-        if hasil_test == 0:
-            st.warning(
-                f'Status Udara SEDANG')
+            st.success(f'Status Udara BAIK')
+        if hasil_test == 1:
+            st.warning(f'Status Udara SEDANG')
         else:
-            st.error(
-                f'Status Udara TIDAK SEHAT')
+            st.error(f'Status Udara TIDAK SEHAT')
