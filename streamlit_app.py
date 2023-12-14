@@ -131,7 +131,7 @@ elif (selected == 'Modeling'):
         akurasi = accuracy_score(y_test, y_pred)
 
         st.info(f'Akurasi yang dihasilkan Naive Bayes = {akurasi*100}%')
-        st.image('nb.png', caption='Confusion Matrix Naive Bayes')
+        st.image('img/nb.png', caption='Confusion Matrix Naive Bayes')
 
     # K-Nearest Neighbour
     with knn:
@@ -147,7 +147,7 @@ elif (selected == 'Modeling'):
 
         best_k = max(scores, key=scores.get)
         st.info(f"Akurasi yang dihasilkan SVM = {max(scores.values())* 100}%")
-        st.image('svm.png', caption='Confusion Matrix SVM')
+        st.image('img/svm.png', caption='Confusion Matrix SVM')
         st.success(
             f"Parameter Terbaik : {best_k} berada di Index : {best_k-1}")
 
@@ -181,8 +181,8 @@ elif (selected == 'Modeling'):
         akurasi = accuracy_score(y_test, y_pred)
 
         st.info(f'Akurasi yang dihasilkan Random Forest = {akurasi*100}%')
-        st.image('rf.png', caption='Confusion Matrix Random Forest')
-        st.image('tree.png', caption='Random Forest Tree')
+        st.image('img/rf.png', caption='Confusion Matrix Random Forest')
+        st.image('img/tree.png', caption='Random Forest Tree')
 
 
 # Predict
@@ -208,7 +208,6 @@ elif (selected == 'Predict'):
     k_nn = joblib.load("model/knn_model.sav")
     if cek_knn:
         hasil_test = k_nn.predict(data_scaler)[FIRST_IDX]
-        st.write(hasil_test)
         if hasil_test == 'BAIK':
             st.success(f'Status Udara BAIK')
         elif hasil_test == 'SEDANG':
