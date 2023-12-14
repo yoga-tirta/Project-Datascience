@@ -209,9 +209,9 @@ elif (selected == 'Predict'):
     if cek_knn:
         hasil_test = k_nn.predict(data_scaler)[FIRST_IDX]
         st.write(hasil_test)
-        if hasil_test == 0:
+        if hasil_test == 'BAIK':
             st.success(f'Status Udara BAIK')
-        elif hasil_test == 1:
+        elif hasil_test == 'SEDANG':
             st.warning(f'Status Udara SEDANG')
         else:
             st.error(f'Status Udara TIDAK SEHAT')
