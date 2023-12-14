@@ -8,7 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import RandomForestClassifier, BaggingClassifier
 from sklearn.datasets import make_classification
 from sklearn.svm import SVC
 from sklearn import metrics
@@ -112,7 +112,7 @@ elif (selected == 'Preprocessing'):
 elif (selected == 'Modeling'):
     st.write("# Modeling")
     # st.caption("Splitting Data yang digunakan merupakan 70:30, 30\% untuk data test dan 70\% untuk data train\nIterasi K di lakukan sebanyak 20 Kali")
-    nb, knn, dtc = st.tabs(['Naive-Bayes', 'SVM', 'Random Forest'])
+    nb, knn, rf = st.tabs(['Naive-Bayes', 'SVM', 'Random Forest'])
 
     # Naive-Bayes Gaussian
     with nb:
@@ -164,20 +164,20 @@ elif (selected == 'Modeling'):
         # Menyimpan Model ke dalam folder model
         joblib.dump(knn, 'model/knn_model.sav')
 
-    # Decision Tree Classifier
-    with dtc:
+    # Random Forest Classifier
+    with rf:
         df_train_pre = joblib.load('model/df_train_pre.sav')
         x_train, x_test, y_train, y_test = train_test_split(
             df_train_pre, y, test_size=0.3, random_state=0)
 
-        dtc = DecisionTreeClassifier()
-        dtc.fit(x_train, y_train)
+        rf = RandomForestClassifier()
+        rf.fit(x_train, y_train)
 
         # Save Model
         # Menyimpan Model ke dalam folder model
-        joblib.dump(dtc, 'model/dtc_model.sav')
+        joblib.dump(rf, 'model/rf_model.sav')
 
-        y_pred = dtc.predict(x_test)
+        y_pred = rf.predict(x_test)
         akurasi = accuracy_score(y_test, y_pred)
 
         st.info(f'Akurasi yang dihasilkan Random Forest = {akurasi*100}%')
@@ -188,6 +188,7 @@ elif (selected == 'Modeling'):
 # Predict
 elif (selected == 'Predict'):
     st.write("# Predict")
+    st.image('img/perbandingan.png', caption='Perbandingan Metode Terbaik')
     st.write(
         "Prediksi menggunakan Model Random Forest dengan akurasi tertinggi sebesar 98%")
 
@@ -198,19 +199,19 @@ elif (selected == 'Predict'):
     no2 = st.number_input("Masukkan Kadar Nitrogen Dioksida (NO2)")
 
     st.write("Prediksi Indeks Standar Pencemaran Udara (ISPU)")
-    cek_knn = st.button('Predict')
+    cek_rf = st.button('Predict')
     inputan = [[pm10, so2, co, o3, no2]]
 
     scaler = joblib.load('model/df_scaled.sav')
     data_scaler = scaler.transform(inputan)
 
     FIRST_IDX = 0
-    k_nn = joblib.load("model/knn_model.sav")
-    if cek_knn:
-        hasil_test = k_nn.predict(data_scaler)[FIRST_IDX]
-        if hasil_test == 'BAIK':
+    rf_pred = joblib.load("model/rf_model.sav")
+    if cek_rf:
+        hasil_pred = rf_pred.predict(data_scaler)[FIRST_IDX]
+        if hasil_pred == 'BAIK':
             st.success(f'Status Udara BAIK')
-        elif hasil_test == 'SEDANG':
+        elif hasil_pred == 'SEDANG':
             st.warning(f'Status Udara SEDANG')
         else:
             st.error(f'Status Udara TIDAK SEHAT')
